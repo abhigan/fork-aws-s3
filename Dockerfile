@@ -1,10 +1,18 @@
-FROM amazon/aws-cli:latest
+FROM alpine:latest
 
 LABEL version="1.0.0"
 
+# https://tecadmin.net/awscli-in-an-alpine-dockerfile/
 RUN apk update && \
     apk upgrade && \
     apk add --no-cache \
+        python3 \
+        py3-pip  && \
+    pip3 install --upgrade pip && \
+    pip3 install --no-cache-dir awscli && \
+    rm -rf /var/cache/apk/*
+
+RUN apk add --no-cache \
     nodejs \
     npm \
     git \
